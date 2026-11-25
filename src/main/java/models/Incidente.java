@@ -1,4 +1,4 @@
-package models;
+    package models;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -49,8 +49,24 @@ public class Incidente implements Comparable<Incidente> {
 
     @Override
     public int compareTo(Incidente otro) {
-        // TODO C: definir y utilizar aquí un Comparator<Incidente> compuesto.
-        throw new UnsupportedOperationException("C: compareTo pendiente");
+        Comparator<Incidente> comparador = Comparator.comparingInt(Incidente :: getSeveridad)
+        .thenComparingInt(Incidente::getMinutosRestantes)
+        .thenComparingInt(Incidente::)
+        .thenComparing(
+            Comparator.comparingInt(
+                (Incidente i) -> - i.getServicios().size())
+                .reversed())
+        .thenComparing(Comparator.comparingInt((Incidente i) -> {
+            int sumUserA = 0;
+            for(ServicioAfectado servicioAfectado : i.getServicios()){
+                sumUserA += servicioAfectado.usuariosAfectados();
+            }
+            return sumUserA
+        }).reversed())
+        .thenComparing(Incidente :: getRegistrado)
+        .thenComparing(Incidente :: getCodigo, String.CASE_INSENSITIVE_ORDER);
+
+        return comparador.compare(this, otro);
     }
 
     @Override
